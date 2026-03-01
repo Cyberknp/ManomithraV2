@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign-Up - Manomitra</title>
+    <link rel="icon" type="image/x-icon" href="manomitra.png">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: Arial, sans-serif;
+            background-color: #f4f8f6;
+            color: #2e3133;
+        }
+
+        .sidebar {
+            background-color: #2e3133;
+            position: fixed;
+            border: 1px solid black;
+            height: 100%;
+            width: 300px;
+            right: 0;
+            border-top-left-radius: 2000px;
+            border-bottom-left-radius: 2000px;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            height: 100%;
+            padding-right: 20px;
+        }
+
+        li {
+            position: relative;
+            width: 100%;
+            margin: 10px 0;
+            padding: 15px;
+            background: #3e3f46;
+            transition: 0.5s;
+            text-align: center;
+        }
+
+        li:hover {
+            background: #9f73b6;
+            transform: translateX(-50px);
+        }
+
+        li::before {
+            content: attr(data-icon);
+            position: absolute;
+            left: -40px;
+            top: 0;
+            width: 40px;
+            height: 100%;
+            background: #2e3133;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #999;
+            transform-origin: right;
+            transform: skewY(45deg);
+            transition: 0.5s;
+        }
+
+        li:hover::before {
+            background: #a378e7;
+        }
+
+        li::after {
+            content: "";
+            position: absolute;
+            top: -40px;
+            left: 0;
+            width: 100%;
+            height: 40px;
+            background: #35383e;
+            transform-origin: bottom;
+            transform: skewX(45deg);
+            transition: 0.5s;
+        }
+
+        li:hover::after {
+            background: #8677df;
+        }
+
+        li a {
+            text-decoration: none;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            display: block;
+            transition: 0.5s;
+        }
+
+        li:hover a {
+            color: #fff;
+        }
+
+        li:last-child::after {
+            box-shadow: -120px 120px 20px rgba(0, 0, 0, 0.25);
+        }
+
+        .signup-container {
+            max-width: 400px;
+            width: 90%;
+            background: #fff;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .signup-container h2 {
+            margin-bottom: 20px;
+            color: #2e3133;
+        }
+
+        .signup-container input[type="text"],
+        .signup-container input[type="email"],
+        .signup-container input[type="password"] {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+
+        .signup-container button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1em;
+            background-color: #444;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 10px;
+        }
+
+        .signup-container button:hover {
+            background-color: #666;
+        }
+
+        .signup-container p {
+            margin-top: 15px;
+            font-size: 0.9em;
+        }
+
+        .signup-container p a {
+            color: #9f73b6;
+            text-decoration: none;
+        }
+
+        .signup-container p a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <ul>
+            <li style="--i:5;" data-icon="🏠">
+                <a href="/" >Home</a>
+            </li>
+            <li style="--i:4;" data-icon="ℹ️">
+                <a href="/aboutus/" >About Us</a>
+            </li>
+            <li style="--i:3;" data-icon="💬">
+                <a href="/chatbot/" >Chatbot</a>
+            </li>
+            <li style="--i:2;" data-icon="📝">
+                <a href="/signup/">Sign-Up</a>
+            </li>
+            <li style="--i:1;" data-icon="🔒">
+                <a href="/login/">Login-In</a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="signup-container">
+        <h2>Sign-Up</h2>
+        <form action="/signup/" method="post">
+            {% csrf_token %}
+            <input type="text" placeholder="Full Name" name="name" required>
+            <input type="email" placeholder="Email" name="email" required>
+            <input type="text" placeholder="Username" name="username" required>
+            <input type="password" placeholder="Password" name="password" required>
+            <input type="password" placeholder="Confirm Password" name="confirm_password" required>
+            <button type="submit">Sign-Up</button>
+        </form>
+        <p>Already have an account? <a href="/login/">Login</a></p>
+    </div>
+</body>
+</html>
