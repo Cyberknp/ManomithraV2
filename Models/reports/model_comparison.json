@@ -1,0 +1,21 @@
+{
+  "models": [
+    {
+      "name": "best",
+      "file": "best_model.keras",
+      "test_loss": 0.95732,
+      "test_accuracy": 0.654183,
+      "macro_f1": 0.711911,
+      "weighted_f1": 0.694445
+    },
+    {
+      "name": "emotion",
+      "file": "emotion_model.keras",
+      "test_loss": 0.95732,
+      "test_accuracy": 0.654183,
+      "macro_f1": 0.711911,
+      "weighted_f1": 0.694445
+    }
+  ],
+  "best_by_accuracy": "best"
+}
