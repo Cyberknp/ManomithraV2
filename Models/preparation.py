@@ -13,7 +13,7 @@ train_datagen = ImageDataGenerator(
 )
 
 train_generator = train_datagen.flow_from_directory(
-    "I:\projects\ManomithraV2\facial\train\train",
+    r"I:\projects\ManomithraV2\facial\train\train",
     target_size=(IMG_SIZE, IMG_SIZE),
     color_mode="grayscale",
     batch_size=64,
