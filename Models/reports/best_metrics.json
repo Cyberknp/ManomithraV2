@@ -1,10 +1,10 @@
 {
   "model": "best",
   "model_file": "best_model.keras",
-  "test_loss": 0.95732,
-  "test_accuracy": 0.654183,
+  "test_loss": 1.181417,
+  "test_accuracy": 0.656901,
   "total_samples": 3311,
-  "correct_predictions": 2166,
+  "correct_predictions": 2175,
   "class_names": [
     "angry",
     "disgust",
@@ -21,7 +21,7 @@
       "f1": 0.0,
       "support": 0,
       "tp": 0,
-      "fp": 133,
+      "fp": 186,
       "fn": 0
     },
     "disgust": {
@@ -30,7 +30,7 @@
       "f1": 0.0,
       "support": 0,
       "tp": 0,
-      "fp": 0,
+      "fp": 5,
       "fn": 0
     },
     "fear": {
@@ -39,7 +39,7 @@
       "f1": 0.0,
       "support": 0,
       "tp": 0,
-      "fp": 137,
+      "fp": 191,
       "fn": 0
     },
     "happy": {
@@ -52,42 +52,42 @@
       "fn": 0
     },
     "neutral": {
-      "precision": 0.661066,
-      "recall": 0.733982,
-      "f1": 0.695619,
+      "precision": 0.717045,
+      "recall": 0.69262,
+      "f1": 0.70462,
       "support": 1233,
-      "tp": 905,
-      "fp": 464,
-      "fn": 328
+      "tp": 854,
+      "fp": 337,
+      "fn": 379
     },
     "sad": {
-      "precision": 0.766067,
-      "recall": 0.477947,
-      "f1": 0.588642,
+      "precision": 0.770715,
+      "recall": 0.544507,
+      "f1": 0.638158,
       "support": 1247,
-      "tp": 596,
-      "fp": 182,
-      "fn": 651
+      "tp": 679,
+      "fp": 202,
+      "fn": 568
     },
     "surprise": {
-      "precision": 0.909713,
-      "recall": 0.800241,
-      "f1": 0.851472,
+      "precision": 0.925072,
+      "recall": 0.772563,
+      "f1": 0.841967,
       "support": 831,
-      "tp": 665,
-      "fp": 66,
-      "fn": 166
+      "tp": 642,
+      "fp": 52,
+      "fn": 189
     }
   },
   "macro_avg": {
-    "precision": 0.778949,
-    "recall": 0.670723,
-    "f1": 0.711911
+    "precision": 0.804277,
+    "recall": 0.669897,
+    "f1": 0.728249
   },
   "weighted_avg": {
-    "precision": 0.763018,
-    "recall": 0.654183,
-    "f1": 0.694445
+    "precision": 0.789469,
+    "recall": 0.656901,
+    "f1": 0.714061
   },
   "confusion_matrix": [
     [
@@ -127,31 +127,31 @@
       0
     ],
     [
-      29,
-      0,
-      32,
-      64,
-      905,
-      166,
-      37
+      50,
+      2,
+      38,
+      76,
+      854,
+      186,
+      27
     ],
     [
-      84,
-      0,
-      61,
-      62,
-      415,
-      596,
-      29
+      105,
+      3,
+      81,
+      45,
+      309,
+      679,
+      25
     ],
     [
-      20,
+      31,
       0,
-      44,
-      37,
-      49,
+      72,
+      42,
+      28,
       16,
-      665
+      642
     ]
   ]
 }
