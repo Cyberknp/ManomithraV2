@@ -3,18 +3,18 @@
     {
       "name": "best",
       "file": "best_model.keras",
-      "test_loss": 0.95732,
-      "test_accuracy": 0.654183,
-      "macro_f1": 0.711911,
-      "weighted_f1": 0.694445
+      "test_loss": 1.181417,
+      "test_accuracy": 0.656901,
+      "macro_f1": 0.728249,
+      "weighted_f1": 0.714061
     },
     {
       "name": "emotion",
       "file": "emotion_model.keras",
-      "test_loss": 0.95732,
-      "test_accuracy": 0.654183,
-      "macro_f1": 0.711911,
-      "weighted_f1": 0.694445
+      "test_loss": 1.181417,
+      "test_accuracy": 0.656901,
+      "macro_f1": 0.728249,
+      "weighted_f1": 0.714061
     }
   ],
   "best_by_accuracy": "best"
