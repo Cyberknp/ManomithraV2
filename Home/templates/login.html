@@ -18,98 +18,6 @@
                 color: #2e3133;
             }
 
-            .sidebar {
-                background-color: #2e3133;
-                position: fixed;
-                border: 1px solid black;
-                height: 100%;
-                width: 300px;
-                right: 0;
-                border-top-left-radius: 2000px;
-                border-bottom-left-radius: 2000px;
-            }
-
-            ul {
-                list-style: none;
-                padding: 0;
-                margin: 0;
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                height: 100%;
-                padding-right: 20px;
-            }
-
-            li {
-                position: relative;
-                width: 100%;
-                margin: 10px 0;
-                padding: 15px;
-                background: #3e3f46;
-                transition: 0.5s;
-                text-align: center;
-            }
-
-            li:hover {
-                background: #9f73b6;
-                transform: translateX(-50px);
-            }
-
-            li::before {
-                content: attr(data-icon);
-                position: absolute;
-                left: -40px;
-                top: 0;
-                width: 40px;
-                height: 100%;
-                background: #2e3133;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                color: #999;
-                transform-origin: right;
-                transform: skewY(45deg);
-                transition: 0.5s;
-            }
-
-            li:hover::before {
-                background: #a378e7;
-            }
-
-            li::after {
-                content: "";
-                position: absolute;
-                top: -40px;
-                left: 0;
-                width: 100%;
-                height: 40px;
-                background: #35383e;
-                transform-origin: bottom;
-                transform: skewX(45deg);
-                transition: 0.5s;
-            }
-
-            li:hover::after {
-                background: #8677df;
-            }
-
-            li a {
-                text-decoration: none;
-                color: #999;
-                text-transform: uppercase;
-                letter-spacing: 0.05em;
-                display: block;
-                transition: 0.5s;
-            }
-
-            li:hover a {
-                color: #fff;
-            }
-
-            li:last-child::after {
-                box-shadow: -120px 120px 20px rgba(0, 0, 0, 0.25);
-            }
-
             .login-container {
                 max-width: 400px;
                 width: 90%;
@@ -167,25 +75,6 @@
         </style>
     </head>
     <body>
-        <div class="sidebar">
-            <ul>
-                <li style="--i: 5" data-icon="🏠">
-                    <a href="/">Home</a>
-                </li>
-                <li style="--i: 4" data-icon="ℹ️">
-                    <a href="/aboutus/">About Us</a>
-                </li>
-                <li style="--i: 3" data-icon="💬">
-                    <a href="/chatbot/">Chatbot</a>
-                </li>
-                <li style="--i: 2" data-icon="📝">
-                    <a href="/signup">Sign-Up</a>
-                </li>
-                <li style="--i: 1" data-icon="🔒">
-                    <a href="/login">Login-In</a>
-                </li>
-            </ul>
-        </div>
         <div class="login-container">
             {% if messages %}
             <div class="alert">
