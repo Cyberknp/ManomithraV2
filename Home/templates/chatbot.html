@@ -1,252 +1,600 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Chatbot</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --primary-color: #000000;
-            --secondary-color: #ffffff;
-            --background-color: #1a1a1a;
-            --text-color: #f2f2f2;
-            --chat-bg: #2c2c2c;
-            --message-bg: #333333;
-            --border-color: #444444;
-        }
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Manomitra — Chat</title>
+        <link rel="icon" type="image/x-icon" href="manomitra.png" />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap"
+            rel="stylesheet"
+        />
+        <style>
+            :root {
+                --bg-page: #fdf6f0;
+                --bg-container: #ffffff;
+                --bg-header: linear-gradient(135deg, #e8a87c, #d4785c);
+                --bg-messages: #faf4ef;
+                --bg-input-bar: #fff8f3;
+                --bg-user-bubble: linear-gradient(135deg, #e8a87c, #d4785c);
+                --bg-bot-bubble: #ffffff;
+                --text-header: #ffffff;
+                --text-user: #ffffff;
+                --text-bot: #4a3728;
+                --text-muted: #a08b7e;
+                --text-body: #5c4a3d;
+                --border-soft: #f0e0d4;
+                --shadow-container: 0 8px 40px rgba(180, 140, 110, 0.18);
+                --shadow-bubble: 0 2px 8px rgba(180, 140, 110, 0.1);
+                --accent: #d4785c;
+                --accent-hover: #c46a4e;
+                --radius-container: 24px;
+                --radius-bubble: 20px;
+                --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
 
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--background-color);
-            color: var(--text-color);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            line-height: 1.6;
-        }
+            body {
+                font-family:
+                    "Inter",
+                    -apple-system,
+                    BlinkMacSystemFont,
+                    sans-serif;
+                background-color: var(--bg-page);
+                background-image:
+                    radial-gradient(
+                        ellipse at 20% 50%,
+                        rgba(232, 168, 124, 0.12) 0%,
+                        transparent 50%
+                    ),
+                    radial-gradient(
+                        ellipse at 80% 20%,
+                        rgba(212, 120, 92, 0.08) 0%,
+                        transparent 50%
+                    );
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                min-height: 100vh;
+                padding: 20px;
+            }
 
-        .chat-container {
-            width: 100%;
-            max-width: 500px;
-            background-color: var(--chat-bg);
-            border-radius: 15px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            height: 80vh;
-            max-height: 700px;
-        }
+            /* ── Container ─────────────────────────────────────────────── */
 
-        .chat-header {
-            background-color: var(--primary-color);
-            color: var(--secondary-color);
-            padding: 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+            .chat-container {
+                width: 100%;
+                max-width: 480px;
+                background-color: var(--bg-container);
+                border-radius: var(--radius-container);
+                box-shadow: var(--shadow-container);
+                overflow: hidden;
+                display: flex;
+                flex-direction: column;
+                height: 85vh;
+                max-height: 740px;
+                border: 1px solid var(--border-soft);
+                animation: fadeSlideUp 0.5s ease-out;
+            }
 
-        .chat-header button {
-            color: var(--secondary-color);
-            background: none;
-            border: none;
-            font-size: 18px;
-            cursor: pointer;
-            transition: opacity 0.3s ease;
-        }
-
-        .chat-header button:hover {
-            opacity: 0.7;
-        }
-
-        .chat-messages {
-            flex-grow: 1;
-            overflow-y: auto;
-            padding: 15px;
-            background-color: var(--chat-bg);
-        }
-
-        .message {
-            margin-bottom: 15px;
-            padding: 10px 15px;
-            border-radius: 10px;
-            max-width: 80%;
-            clear: both;
-            word-wrap: break-word;
-        }
-
-        .user-message {
-            background-color: var(--primary-color);
-            color: var(--secondary-color);
-            align-self: flex-end;
-            float: right;
-            border-bottom-right-radius: 0;
-        }
-
-        .bot-message {
-            background-color: var(--message-bg);
-            color: var(--text-color);
-            align-self: flex-start;
-            float: left;
-            border-bottom-left-radius: 0;
-        }
-
-        .chat-input-area {
-            display: flex;
-            padding: 15px;
-            background-color: var(--primary-color);
-            border-top: 1px solid var(--border-color);
-        }
-
-        .chat-input {
-            flex-grow: 1;
-            padding: 10px;
-            border: 1px solid var(--border-color);
-            border-radius: 25px;
-            margin-right: 10px;
-            font-size: 16px;
-            color: var(--text-color);
-            background-color: var(--chat-bg);
-        }
-
-        .chat-input::placeholder {
-            color: var(--text-color);
-            opacity: 0.7;
-        }
-
-        .send-button {
-            background-color: var(--secondary-color);
-            color: var(--primary-color);
-            border: none;
-            padding: 10px 20px;
-            border-radius: 25px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        .send-button:hover {
-            background-color: #e6e6e6;
-        }
-
-        .return-button {
-            text-align: center;
-            padding: 15px;
-            font-size: 14px;
-            background-color: var(--secondary-color);
-            color: var(--primary-color);
-            border: none;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        .return-button:hover {
-            background-color: #e6e6e6;
-        }
-    </style>
-</head>
-<body>
-    <div class="chat-container">
-        <div class="chat-header">
-            <span>AI Chatbot</span>
-            {% if user.is_authenticated %}
-                <button class="logout-button" onclick="logout()">&#x2715;</button>
-            {% endif %}
-        </div>
-        
-        <div class="chat-messages" id="chat-messages">
-            <div class="message bot-message">
-               Hey ! Manomithre here how can i assist you today
-            </div>
-        </div>
-        
-        <div class="chat-input-area">
-            <input 
-                type="text" 
-                id="user-input" 
-                class="chat-input" 
-                placeholder="Type your message..."
-            >
-            <button class="send-button" onclick="sendMessage()">Send</button>
-        </div>
-
-        <button class="return-button" onclick="returnHome()">Return to Home</button>
-    </div>
-
-    <script>
-        function getCookie(name) {
-            let cookieValue = null;
-            if (document.cookie && document.cookie !== '') {
-                const cookies = document.cookie.split(';');
-                for (let i = 0; i < cookies.length; i++) {
-                    const cookie = cookies[i].trim();
-                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                        break;
-                    }
+            @keyframes fadeSlideUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(24px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
                 }
             }
-            return cookieValue;
-        }
 
-        const csrfToken = getCookie('csrftoken');
+            /* ── Header ────────────────────────────────────────────────── */
 
-        function sendMessage() {
-            const userInput = document.getElementById("user-input");
-            const chatMessages = document.getElementById("chat-messages");
+            .chat-header {
+                background: var(--bg-header);
+                color: var(--text-header);
+                padding: 18px 22px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                flex-shrink: 0;
+            }
 
-            if (!userInput.value.trim()) return;
+            .chat-header-left {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+            }
 
-            const userMessageElement = document.createElement('div');
-            userMessageElement.classList.add('message', 'user-message');
-            userMessageElement.textContent = userInput.value;
-            chatMessages.appendChild(userMessageElement);
+            .chat-avatar {
+                width: 38px;
+                height: 38px;
+                border-radius: 50%;
+                background: rgba(255, 255, 255, 0.25);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 18px;
+                backdrop-filter: blur(4px);
+            }
 
-            fetch('/chatbot/', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                    'X-CSRFToken': csrfToken,
-                },
-                body: new URLSearchParams({
-                    'user_input': userInput.value
-                })
-            })
-            .then(response => response.json())
-            .then(data => {
-                const botMessageElement = document.createElement('div');
-                botMessageElement.classList.add('message', 'bot-message');
-                botMessageElement.textContent = data.response || "An error occurred.";
-                chatMessages.appendChild(botMessageElement);
+            .chat-header-info h3 {
+                font-size: 15px;
+                font-weight: 600;
+                letter-spacing: 0.01em;
+            }
 
+            .chat-header-info p {
+                font-size: 11px;
+                font-weight: 300;
+                opacity: 0.85;
+                margin-top: 1px;
+            }
+
+            .header-close-btn {
+                color: var(--text-header);
+                background: rgba(255, 255, 255, 0.15);
+                border: none;
+                width: 32px;
+                height: 32px;
+                border-radius: 50%;
+                font-size: 15px;
+                cursor: pointer;
+                transition: background var(--transition);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .header-close-btn:hover {
+                background: rgba(255, 255, 255, 0.3);
+            }
+
+            /* ── Messages Area ─────────────────────────────────────────── */
+
+            .chat-messages {
+                flex-grow: 1;
+                overflow-y: auto;
+                padding: 22px 18px;
+                background-color: var(--bg-messages);
+                display: flex;
+                flex-direction: column;
+                gap: 14px;
+                scroll-behavior: smooth;
+            }
+
+            .chat-messages::-webkit-scrollbar {
+                width: 5px;
+            }
+
+            .chat-messages::-webkit-scrollbar-track {
+                background: transparent;
+            }
+
+            .chat-messages::-webkit-scrollbar-thumb {
+                background: #e0cfc4;
+                border-radius: 10px;
+            }
+
+            .chat-messages::-webkit-scrollbar-thumb:hover {
+                background: #d0b8a8;
+            }
+
+            /* ── Message Bubbles ───────────────────────────────────────── */
+
+            .message {
+                padding: 12px 18px;
+                border-radius: var(--radius-bubble);
+                max-width: 78%;
+                word-wrap: break-word;
+                line-height: 1.55;
+                font-size: 14px;
+                font-weight: 400;
+                box-shadow: var(--shadow-bubble);
+                animation: bubblePop 0.3s ease-out;
+                position: relative;
+            }
+
+            @keyframes bubblePop {
+                from {
+                    opacity: 0;
+                    transform: scale(0.92) translateY(8px);
+                }
+                to {
+                    opacity: 1;
+                    transform: scale(1) translateY(0);
+                }
+            }
+
+            .user-message {
+                background: var(--bg-user-bubble);
+                color: var(--text-user);
+                align-self: flex-end;
+                border-bottom-right-radius: 6px;
+            }
+
+            .bot-message {
+                background: var(--bg-bot-bubble);
+                color: var(--text-bot);
+                align-self: flex-start;
+                border-bottom-left-radius: 6px;
+                border: 1px solid var(--border-soft);
+            }
+
+            /* ── Typing Indicator ──────────────────────────────────────── */
+
+            .typing-indicator {
+                display: none;
+                align-self: flex-start;
+                background: var(--bg-bot-bubble);
+                border: 1px solid var(--border-soft);
+                border-radius: var(--radius-bubble);
+                border-bottom-left-radius: 6px;
+                padding: 14px 20px;
+                box-shadow: var(--shadow-bubble);
+            }
+
+            .typing-indicator.visible {
+                display: flex;
+                gap: 5px;
+                align-items: center;
+            }
+
+            .typing-dot {
+                width: 7px;
+                height: 7px;
+                border-radius: 50%;
+                background-color: #cdb8a8;
+                animation: typingBounce 1.4s infinite ease-in-out;
+            }
+
+            .typing-dot:nth-child(2) {
+                animation-delay: 0.15s;
+            }
+            .typing-dot:nth-child(3) {
+                animation-delay: 0.3s;
+            }
+
+            @keyframes typingBounce {
+                0%,
+                60%,
+                100% {
+                    transform: translateY(0);
+                    opacity: 0.4;
+                }
+                30% {
+                    transform: translateY(-6px);
+                    opacity: 1;
+                }
+            }
+
+            /* ── Input Area ────────────────────────────────────────────── */
+
+            .chat-input-area {
+                display: flex;
+                padding: 14px 16px;
+                background-color: var(--bg-input-bar);
+                border-top: 1px solid var(--border-soft);
+                gap: 10px;
+                align-items: center;
+                flex-shrink: 0;
+            }
+
+            .chat-input {
+                flex-grow: 1;
+                padding: 12px 18px;
+                border: 1.5px solid var(--border-soft);
+                border-radius: 50px;
+                font-size: 14px;
+                font-family: "Inter", sans-serif;
+                color: var(--text-body);
+                background-color: #ffffff;
+                outline: none;
+                transition:
+                    border-color var(--transition),
+                    box-shadow var(--transition);
+            }
+
+            .chat-input::placeholder {
+                color: var(--text-muted);
+                font-weight: 300;
+            }
+
+            .chat-input:focus {
+                border-color: var(--accent);
+                box-shadow: 0 0 0 3px rgba(212, 120, 92, 0.12);
+            }
+
+            .send-button {
+                background: var(--bg-header);
+                color: #fff;
+                border: none;
+                width: 44px;
+                height: 44px;
+                min-width: 44px;
+                border-radius: 50%;
+                cursor: pointer;
+                transition:
+                    transform var(--transition),
+                    box-shadow var(--transition);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .send-button:hover {
+                transform: scale(1.08);
+                box-shadow: 0 4px 14px rgba(212, 120, 92, 0.3);
+            }
+
+            .send-button:active {
+                transform: scale(0.95);
+            }
+
+            .send-button svg {
+                width: 18px;
+                height: 18px;
+                fill: none;
+                stroke: #fff;
+                stroke-width: 2.2;
+                stroke-linecap: round;
+                stroke-linejoin: round;
+            }
+
+            /* ── Return Button ─────────────────────────────────────────── */
+
+            .return-button {
+                text-align: center;
+                padding: 13px;
+                font-size: 13px;
+                font-family: "Inter", sans-serif;
+                font-weight: 500;
+                letter-spacing: 0.02em;
+                background-color: var(--bg-input-bar);
+                color: var(--accent);
+                border: none;
+                border-top: 1px solid var(--border-soft);
+                cursor: pointer;
+                transition:
+                    background-color var(--transition),
+                    color var(--transition);
+                flex-shrink: 0;
+            }
+
+            .return-button:hover {
+                background-color: #fdeee5;
+                color: var(--accent-hover);
+            }
+
+            /* ── Timestamp ─────────────────────────────────────────────── */
+
+            .timestamp {
+                text-align: center;
+                font-size: 11px;
+                color: var(--text-muted);
+                font-weight: 300;
+                padding: 4px 0;
+            }
+
+            /* ── Welcome Card ──────────────────────────────────────────── */
+
+            .welcome-card {
+                background: linear-gradient(135deg, #fef0e7, #fde8da);
+                border: 1px solid #f5dccf;
+                border-radius: 16px;
+                padding: 18px 20px;
+                text-align: center;
+                animation: bubblePop 0.4s ease-out;
+            }
+
+            .welcome-card .welcome-emoji {
+                font-size: 28px;
+                margin-bottom: 8px;
+            }
+
+            .welcome-card p {
+                font-size: 14px;
+                color: var(--text-bot);
+                line-height: 1.6;
+            }
+
+            .welcome-card p strong {
+                color: var(--accent);
+            }
+        </style>
+    </head>
+    <body>
+        <div class="chat-container">
+            <!-- Header -->
+            <div class="chat-header">
+                <div class="chat-header-left">
+                    <div class="chat-avatar">🧠</div>
+                    <div class="chat-header-info">
+                        <h3>Manomitra</h3>
+                        <p>Your wellness companion</p>
+                    </div>
+                </div>
+                {% if user.is_authenticated %}
+                <button
+                    class="header-close-btn"
+                    onclick="logout()"
+                    title="Logout"
+                >
+                    &#x2715;
+                </button>
+                {% endif %}
+            </div>
+
+            <!-- Messages -->
+            <div class="chat-messages" id="chat-messages">
+                <div class="timestamp" id="session-time"></div>
+                <div class="welcome-card">
+                    <div class="welcome-emoji">👋</div>
+                    <p>
+                        Hey there! I'm <strong>Manomitra</strong>, your friendly
+                        wellness companion. Feel free to share what's on your
+                        mind — I'm here to listen and help.
+                    </p>
+                </div>
+
+                <!-- Typing indicator (hidden by default) -->
+                <div class="typing-indicator" id="typing-indicator">
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                </div>
+            </div>
+
+            <!-- Input -->
+            <div class="chat-input-area">
+                <input
+                    type="text"
+                    id="user-input"
+                    class="chat-input"
+                    placeholder="Type your message..."
+                    autocomplete="off"
+                />
+                <button
+                    class="send-button"
+                    onclick="sendMessage()"
+                    title="Send"
+                >
+                    <svg viewBox="0 0 24 24">
+                        <line x1="22" y1="2" x2="11" y2="13"></line>
+                        <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                    </svg>
+                </button>
+            </div>
+
+            <button class="return-button" onclick="returnHome()">
+                ← Return to Home
+            </button>
+        </div>
+
+        <script>
+            // Show current session time
+            (function setSessionTime() {
+                const el = document.getElementById("session-time");
+                const now = new Date();
+                const options = {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                    hour12: true,
+                };
+                el.textContent =
+                    "Today, " + now.toLocaleTimeString([], options);
+            })();
+
+            // Send on Enter key
+            document
+                .getElementById("user-input")
+                .addEventListener("keydown", function (e) {
+                    if (e.key === "Enter") sendMessage();
+                });
+
+            function getCookie(name) {
+                let cookieValue = null;
+                if (document.cookie && document.cookie !== "") {
+                    const cookies = document.cookie.split(";");
+                    for (let i = 0; i < cookies.length; i++) {
+                        const cookie = cookies[i].trim();
+                        if (
+                            cookie.substring(0, name.length + 1) ===
+                            name + "="
+                        ) {
+                            cookieValue = decodeURIComponent(
+                                cookie.substring(name.length + 1),
+                            );
+                            break;
+                        }
+                    }
+                }
+                return cookieValue;
+            }
+
+            const csrfToken = getCookie("csrftoken");
+
+            function sendMessage() {
+                const userInput = document.getElementById("user-input");
+                const chatMessages = document.getElementById("chat-messages");
+                const typingIndicator =
+                    document.getElementById("typing-indicator");
+
+                if (!userInput.value.trim()) return;
+
+                // User bubble
+                const userMessageElement = document.createElement("div");
+                userMessageElement.classList.add("message", "user-message");
+                userMessageElement.textContent = userInput.value;
+                chatMessages.insertBefore(userMessageElement, typingIndicator);
+
+                const messageText = userInput.value;
+                userInput.value = "";
+
+                // Show typing indicator
+                typingIndicator.classList.add("visible");
                 chatMessages.scrollTop = chatMessages.scrollHeight;
-            })
-            .catch(error => {
-                const errorMessageElement = document.createElement('div');
-                errorMessageElement.classList.add('message', 'bot-message');
-                errorMessageElement.textContent = `Network Error: ${error}`;
-                chatMessages.appendChild(errorMessageElement);
-            });
 
-            userInput.value = '';
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-        }
+                fetch("/chatbot/", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded",
+                        "X-CSRFToken": csrfToken,
+                    },
+                    body: new URLSearchParams({
+                        user_input: messageText,
+                    }),
+                })
+                    .then((response) => response.json())
+                    .then((data) => {
+                        typingIndicator.classList.remove("visible");
 
-        function logout() {
-            window.location.href = '/logout/';
-        }
+                        const botMessageElement = document.createElement("div");
+                        botMessageElement.classList.add(
+                            "message",
+                            "bot-message",
+                        );
+                        botMessageElement.textContent =
+                            data.response ||
+                            "I'm having trouble responding right now. Please try again.";
+                        chatMessages.insertBefore(
+                            botMessageElement,
+                            typingIndicator,
+                        );
 
-        function returnHome() {
-            window.location.href = '/';
-        }
-    </script>
-</body>
+                        chatMessages.scrollTop = chatMessages.scrollHeight;
+                    })
+                    .catch((error) => {
+                        typingIndicator.classList.remove("visible");
+
+                        const errorMessageElement =
+                            document.createElement("div");
+                        errorMessageElement.classList.add(
+                            "message",
+                            "bot-message",
+                        );
+                        errorMessageElement.textContent =
+                            "Oops — something went wrong. Please check your connection and try again.";
+                        chatMessages.insertBefore(
+                            errorMessageElement,
+                            typingIndicator,
+                        );
+
+                        chatMessages.scrollTop = chatMessages.scrollHeight;
+                    });
+            }
+
+            function logout() {
+                window.location.href = "/logout/";
+            }
+
+            function returnHome() {
+                window.location.href = "/";
+            }
+        </script>
+    </body>
 </html>
